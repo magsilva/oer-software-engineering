@@ -1,0 +1,26 @@
+% Fact block definition
+%
+
+\setbeamercolor{fact title}{bg=green!30!black, fg=white}
+\setbeamercolor{fact body}{bg=green!05!white, fg=black}
+
+\defbeamertemplate*{fact begin}{default}[1][]{%
+	\par%
+	\vskip\medskipamount%
+	\begin{beamerboxesrounded}[upper=fact title,lower=fact body,shadow=true,#1]{\usebeamerfont{block title}\insertblocktitle}%
+	\usebeamerfont{block body}%
+ }
+
+\defbeamertemplate*{fact end}{default}{%
+	\end{beamerboxesrounded}%
+	\vskip\smallskipamount%
+}
+
+\newenvironment<>{block:fact}[1]{%
+	\begin{actionenv}#2%
+		\def\insertblocktitle{#1}%
+		\usebeamertemplate{fact begin}%
+}{%
+		\usebeamertemplate{fact end}%
+	\end{actionenv}%
+}

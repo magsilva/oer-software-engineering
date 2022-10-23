@@ -1,0 +1,10 @@
+\@ifundefined{insertcmap}{
+	\newcommand{\insertcmap}[1]{
+		\resizebox{1.05\textwidth}{!}{
+			\hspace{-.8cm}%
+			\input{#1.tex}
+		}
+	}
+}{
+	\relax
+}

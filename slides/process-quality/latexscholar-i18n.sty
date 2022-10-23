@@ -1,0 +1,88 @@
+%%
+% Internationalization related configuration for LaTeX documents. This
+% package defines:
+% - font encoding
+% - translation of constants
+% - command to use foreign words (where foreign is English)
+%
+% It DOES NOT define:
+% - character encoding (you are required to define the encoding in your
+%   LaTeX document. Unfortunately, we cannot assume that everybody uses
+%   UTF-8 nowadays.
+%%
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{latexscholar-i18n}[2012/02/13 i18n related package for LaTeX-Scholars]
+
+\RequirePackage{ifthen}
+\newboolean{scholars@encoding@utf8}
+\newboolean{scholars@encoding@iso88591}
+\setboolean{scholars@encoding@utf8}{false}
+\setboolean{scholars@encoding@iso88591}{false}
+
+\DeclareOption{utf8}{
+	\setboolean{scholars@encoding@utf8}{true}
+}
+\DeclareOption{latin1}{
+	\setboolean{scholars@encoding@iso88591}{true}
+}
+
+\ProcessOptions*
+
+\RequirePackage{cmap}
+% \RequirePackage{mmap}  % Buggy! It's breaking \url support.
+% \RequirePackage[noTeX]{mmap}
+
+% Select font encoding (and fix cut/paste for PDF documents).
+\RequirePackage[T1]{fontenc}
+
+% l10n
+\RequirePackage{babel}
+\RequirePackage{datetime}
+
+
+% Select charset encoding
+\@ifpackageloaded{inputenc}{}{
+	\ifthenelse{\boolean{scholars@encoding@utf8}}{
+		\RequirePackage[utf8]{inputenc}
+		\PassOptionsToPackage{pdfencoding=auto, psdextra}{hyperref}
+	}{}
+	\ifthenelse{\boolean{scholars@encoding@iso88591}}{
+		\RequirePackage[latin1]{inputenc}
+	}{}
+}
+
+% Hint extracted from LaTeX-Beamer:
+% If you use a Unicode character outside the first two code pages (which
+% includes the Latin alphabet and the extended Latin alphabet) in a section
+% or subsection heading, you have to use the command \PreloadUnicodePage{\meta{code page}}
+% to give 'ucs' a chance to preload these code pages. You will know that a
+% character has not been preloaded, if you get a message like ``Please insert
+% into preamble.'' The code page of a character is given by the unicode number
+% of the character divided by 256.
+
+
+
+% Fonts to be used. This choice depends upon the font's choice. For
+% T1, the old recommended option was 'ae' (Almost European). It will use
+% Adobe Type 1 versions of the CM fonts instead of bitmapped ones.
+% Currently, a better option is 'cm-super' (mostly automatically
+% vectorized from bitmap ones) and 'lmodern' (manually vectorized).
+% As 'lmodern' (Latin Modern) is more carefully designed and under
+% continuous maintenance, it is the recommended option.
+\RequirePackage{lmodern}
+
+% If using cm-super, you should also enable the package 'fix-cm' to
+% fix a bug in 'cm-super'.
+% \RequirePackage{cm-super}
+% \RequirePackage{fix-cm}
+
+% Usually, using the package 'ae' provides a better viewing/rendering
+% quality (at the expense of broken copy & paste of the text for
+% non-ascii chars.
+% \RequirePackage{ae}
+% \RequirePackage{aecompl}
+% \RequirePackage{aeguill}
+
+
+% Macro used for works in English
+\newcommand\foreign[1]{\foreignlanguage{english}{\textit{#1}}}

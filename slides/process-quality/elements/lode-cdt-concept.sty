@@ -1,0 +1,26 @@
+% Concept block definition
+%
+
+\setbeamercolor{concept title}{bg=blue!30!black, fg=white}
+\setbeamercolor{concept body}{bg=blue!05!white, fg=black}
+
+\defbeamertemplate*{concept begin}{default}[1][]{%
+	\par%
+	\vskip\medskipamount%
+	\begin{beamerboxesrounded}[upper=concept title,lower=concept body,shadow=true,#1]{\usebeamerfont{block title}\insertblocktitle}%
+	\usebeamerfont{block body}%
+ }
+
+\defbeamertemplate*{concept end}{default}{%
+	\end{beamerboxesrounded}%
+	\vskip\smallskipamount%
+}
+
+\newenvironment<>{block:concept}[1]{%
+	\begin{actionenv}#2%
+		\def\insertblocktitle{#1}%
+		\usebeamertemplate{concept begin}%
+}{%
+		\usebeamertemplate{concept end}%
+	\end{actionenv}%
+}

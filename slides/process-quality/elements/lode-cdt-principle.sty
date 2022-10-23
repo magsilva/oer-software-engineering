@@ -1,0 +1,26 @@
+% Fact block definition
+%
+
+\setbeamercolor{principle title}{bg=yellow!30!black, fg=white}
+\setbeamercolor{principle body}{bg=yellow!05!white, fg=black}
+
+\defbeamertemplate*{principle begin}{default}[1][]{%
+	\par%
+	\vskip\medskipamount%
+	\begin{beamerboxesrounded}[upper=principle title,lower=principle body,shadow=true,#1]{\usebeamerfont{block title}\insertblocktitle}%
+	\usebeamerfont{block body}%
+}
+
+\defbeamertemplate*{principle end}{default}{%
+	\end{beamerboxesrounded}%
+	\vskip\smallskipamount%
+}
+
+\newenvironment<>{block:principle}[1]{%
+	\begin{actionenv}#2%
+		\def\insertblocktitle{#1}%
+		\usebeamertemplate{principle begin}%
+}{%
+		\usebeamertemplate{principle end}%
+	\end{actionenv}%
+}

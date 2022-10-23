@@ -1,0 +1,96 @@
+\begin{frame}[parent={ie:agenda}, hasnext=true, hasprev=false]
+	\frametitle{Modelo incremental}
+
+	\begin{block:concept}{Definição}
+		Modelo de ciclo de vida organizado em iterações, com entrega de versões do
+		produto a cada iteração, e em que o usuário participa em todas as
+		etapas de desenvolvimento~\cite{Zurcher-Randel:1968, Basili-Turner:1975, Gilb:1981, McCracken-Jackson:1982, Gilb:1985}.
+	\end{block:concept}
+	
+	\begin{block:fact}{Contexto}
+		\begin{itemize}
+			\item 1970 -- 1985
+			\begin{itemize}
+				\item Na verdade, remonta de 1930 e, para software, de 1960~\cite{Larman-Basili:2003}.
+			\end{itemize}
+			
+			\item Resposta a um evento que pretendia estabelecer \textbf{o} ciclo de
+			vida para desenvolvimento de software (para fins de educação e certificação).
+		\end{itemize}
+	\end{block:fact}
+	
+	\note{
+		\begin{itemize}
+			\item Apresentado originalmente em 1981, durante evento organizado pela
+			ICCP e patrocinado pela IEEE-CS e ACM, com o título ``A Minority Dissenting
+			Position''.
+			
+			\item O artigo foi uma resposta (e crítica) ao modelo de ciclo de vida de
+			software adotado como ``correto'' pela conferência.
+			
+			\item Artigo é curto e superficial. Além disso, não oferece nenhuma
+			evidência que suporta o modelo proposto.
+			
+			\item Mais sobre a história do modelo incremental: http://c2.com/cgi-bin/wiki?HistoryOfIterative
+		\end{itemize}
+	}
+\end{frame}
+
+
+\begin{frame}[hasnext=true, hasprev=true]
+	\frametitle{Modelo incremental}
+
+	\begin{block:fact}{Características}
+		\begin{itemize}
+			\item Dirigido a objetivos
+			\begin{itemize}
+				\item Requisitos de qualidade em uso (e mensuráveis)
+				\item Objetivos revisados a cada iteração
+			\end{itemize}
+		
+			\item Iterações frequentes
+			\begin{itemize}
+				\item Favorecimento de uma maior relação valor entregue para o usuário
+				em relação ao custo de desenvolvimento
+			\end{itemize}
+			
+			\item Análise, projeto, entrega e teste completos em cada iteração
+		\end{itemize}
+	\end{block:fact}
+	
+	\note{
+		\begin{itemize}
+			\item Ao invés de verificar o quanto podemos fazer com uma certa quantidade
+			de recurso (tal como no planejamento usual), a pergunta é: quão pouco podemos
+			gastar e ainda conseguir algum resultado útil para alcançar nossos objetivos?
+		\end{itemize}
+	}
+\end{frame}
+
+
+
+\begin{frame}[hasnext=false, hasprev=true]
+	\frametitle{Modelo incremental}
+
+	\begin{block:fact}{Pontos positivos}
+		\begin{itemize}
+			\item Foco nos interesses do usuário
+		\end{itemize}
+	\end{block:fact}
+
+	\begin{block:fact}{Limitações}
+		\begin{itemize}
+			\item Risco elevado das iterações iniciais~\cite{Boehm:1996}
+			\begin{itemize}
+				\item Não atender um objetivo razoável do interessado.
+				\item Requisitos de qualidade não são priorizados.
+				\item Arquitetura inicial pode não ser satisfatória.
+			\end{itemize}
+		\end{itemize}
+	\end{block:fact}
+	
+	\note{
+		As limitações deste modelo inspiraram a definição de modelos baseados em risco
+		por Barry Boehm (modelo espiral).
+	}
+\end{frame}

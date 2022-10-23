@@ -1,0 +1,66 @@
+\pdfminorversion=7
+\PassOptionsToPackage{obeyspaces}{url}
+\documentclass[utf8, english, brazil, usepdftitle=false, svgnames, color={table, fixpdftex, hyperref, fixinclude, xcdraw}, t]{beamer}
+
+\usepackage{latexscholar-i18n}
+\usepackage{latexscholar-quote}
+\usepackage{latexscholar-verbatim}
+\usepackage{lode-imacid}
+\usepackage{multirow}
+
+\title[]{\large Engenharia de Software 2}
+\subtitle{\textit{Bacharelado em Ciência da Computação}}
+\author[UTFPR]{Prof. Dr. Marco Aurélio Graciotto Silva}
+\date[]{2022}
+\logopicture{utfpr}{scale=0.4}
+
+\usepackage{tabularx}
+
+\usepackage{pgfpages}
+% \AtBeginNote{\textbf{Anotações}\par\small}
+% \setbeameroption{show notes on second screen}
+
+\usepackage[space]{grffile}
+
+\begin{document}
+
+\frontmatter{}
+\include{titlepage}
+
+\mainmatter{}
+\include{agenda}
+
+\section{Processo}
+
+\subsection{Conceitos}
+\include{software-engineering/project-management/process}
+
+\subsection{Definição de processo}
+\include{software-engineering/project-management/process/process-definition}
+
+
+\subsection{Qualidade de processo}
+\include{software-engineering/project-management/process/process-quality}
+
+% \subsubsection{ISO 15504}
+% \include{software-engineering/project-management/process/process-quality/iso15504}
+
+\subsubsection{CMMi}
+\include{software-engineering/project-management/process/process-quality/cmmi}
+
+\subsubsection{MPS.BR}
+\include{software-engineering/project-management/process/process-quality/mpsbr}
+
+%\subsection{Simulação de processos}
+%\include{software-engineering/project-management/process/process-simulation}
+
+%\subsubsection{Próximos passos}
+%\include{software-engineering/project-management/process/process-quality/next}
+
+
+\backmatter{}
+\part{Referências e créditos}
+\include{bibliography}
+
+
+\end{document}

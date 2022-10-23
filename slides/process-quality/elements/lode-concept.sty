@@ -1,0 +1,17 @@
+% Conceptual level related definitions
+%
+
+\colorlet{lode-concept}{red!30!black}
+
+
+\usepackage{ifthen}
+\newcommand{\concept}[2][]{%
+	\ifthenelse{\isempty{#1}}{%
+		\@concept@notarget{#2}%
+	}{%
+		\@concept@target{#1}{#2}%
+	}%
+}
+
+\newcommand{\@concept@notarget}[1]{\@concept@target{#1}{#1}}
+\newcommand{\@concept@target}[2]{\hyperlink{concept:#1}{\textbf{#2}}}

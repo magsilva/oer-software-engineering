@@ -1,0 +1,753 @@
+\usepackage{ifthen}
+\usepackage{ifpdf}
+\usepackage[normalem]{ulem}
+\usepackage{xifthen}
+
+\RequirePackage{latexscholar-graphic}
+
+\hypersetup{pdfborder=0 0 0}
+\RequirePackage{xcolor}
+
+\usepackage{import}
+
+\def\beamer@startpageoftitle{1}
+\def\beamer@endpageoftitle{1}
+\def\beamer@startpageofmainmatter{1}
+\def\beamer@endpageofmainmatter{1}
+
+\newcommand{\frontmatter}{
+	\def\beamer@startpageoffrontmatter{\thepage}
+}
+\newcommand{\mainmatter}{
+	\def\beamer@endpageoffrontmatter{\thepage}
+	\def\beamer@startpageofmainmatter{\thepage}
+}
+\newcommand{\backmatter}{
+	\def\beamer@endpageofmainmatter{\thepage}
+	\def\beamer@startpageofbackmatter{\thepage}
+}
+
+\mode<presentation>
+{
+        % The \maketitle command (for compatibility with other classes)
+        %
+	\def\maketitle{%
+		\def\beamer@startpageoftitle{\thepage}
+                \ifbeamer@inframe%
+                        \titlepage%
+                \else%
+                        \frame{\titlepage}%
+                \fi%
+		\def\beamer@endpageoftitle{\thepage}
+        }
+}
+
+
+% Logo
+%
+\newcommand{\logopicture}[2]{%
+	\titlegraphic{\includegraphics[#2]{#1}}%
+}
+
+
+% Title page
+%
+\defbeamertemplate*{title page}{imacid}[1][]
+{
+	\begin{centering}
+		\vskip1.5em
+		\hspace{-\beamer@leftsidebar}
+		{\usebeamercolor[fg]{titlegraphic}\inserttitlegraphic\par}
+
+		\vskip2.0em
+		\hspace{-\beamer@leftsidebar}
+		\begin{beamercolorbox}[sep=8pt,center,#1,shadow=true,rounded=true]{title}
+			\usebeamerfont{title}\inserttitle\par%
+			\ifx\insertsubtitle\@empty%
+			\else%
+				\vskip0.25em%
+				{\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle\par}%
+			\fi%
+		\end{beamercolorbox}
+		\vskip1.0em
+
+		\hspace{-\beamer@leftsidebar}
+		\begin{beamercolorbox}[sep=6pt,center,#1]{author}
+			\usebeamerfont{author}\insertauthor
+		\end{beamercolorbox}
+
+		\hspace{-\beamer@leftsidebar}
+		\begin{beamercolorbox}[sep=6pt,center,#1]{institute}
+			\usebeamerfont{institute}\insertinstitute
+		\end{beamercolorbox}
+		\vskip0.5em
+
+		\hspace{-\beamer@leftsidebar}\hspace{1.9em}
+		\begin{beamercolorbox}[sep=6pt,center,#1]{date}
+			\usebeamerfont{date}\insertdate
+		\end{beamercolorbox}
+	\end{centering}
+}
+
+
+% The \institute command
+%
+\newlength{\instcolumnwidth}
+\def\institute{\@dblarg\beamer@institute}
+\long\def\beamer@institute[#1]#2{%
+        \def\beamer@temp{#2}%
+        \ifx\beamer@temp\@empty
+                \def\insertinstitute{}
+        \else
+                \def\insertinstitute{%
+                        \ifdefined\numberofinstitutes%
+                                \setlength{\instcolumnwidth}{\textwidth / \numberofinstitutes}
+                                \begin{columns}[t, totalwidth=\textwidth]%
+                                        \def\inst{\column[t]{\instcolumnwidth}\centering\beamer@instinst}%
+                                        \def\and{\beamer@andinst}
+                                        #2%
+                                \end{columns}%
+                        \else
+                                \def\inst{\centering\beamer@instinst}%
+                                \def\and{\beamer@andinst}%
+                        \fi
+                }%
+        \fi%
+        \def\beamer@shortinstitute{#1}}%
+\institute{}
+
+
+
+% Bibliography
+%
+\def\bibliography#1{%
+	\if@filesw
+		\immediate\write\@auxout{\string\bibdata{#1}}%
+	\fi
+	\@input@{\jobname.bbl}\hspace{1pt}
+}
+
+
+% Concept map support
+%
+\usepackage{tikz}
+\usetikzlibrary{snakes,arrows,shapes}
+\tikzstyle{concept} = [top color=white, bottom color=blue!20, draw=blue!50!black!100]
+
+% Itemize
+%
+%\renewcommand{\itemize}[1][]{%
+%	\beamer@ifempty{#1}{}{\def\beamer@defaultospec{#1}}%
+%	\ifnum \@itemdepth >2\relax\@toodeep\else
+%		\advance\@itemdepth\@ne
+%		\beamer@computepref\@itemdepth% sets \beameritemnestingprefix
+%		\usebeamerfont{itemize/enumerate \beameritemnestingprefix body}%
+%		\usebeamercolor[fg]{itemize/enumerate \beameritemnestingprefix body}%
+%		\usebeamertemplate{itemize/enumerate \beameritemnestingprefix body begin}%
+%		\list
+%		{\usebeamertemplate{itemize \beameritemnestingprefix item}}
+%		{\itemsep=2pt\topsep=4pt%
+%			\def\makelabel##1{%
+%				{%
+%					\hss\llap{{%
+%					\usebeamerfont*{itemize \beameritemnestingprefix item}%
+%					\usebeamercolor[fg]{itemize \beameritemnestingprefix item}##1}}%
+%				}%
+%			}%
+%		}
+%	\fi%
+%	\beamer@cramped%
+%	\raggedright%
+%	\beamer@firstlineitemizeunskip%
+%}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Navigation
+%
+
+% Next symbol
+%
+\def\insertnextslidenavigationsymbol{%
+	\hyperlinkslidenext{\insertrightarrowsymbol}%
+}%
+
+\def\insertnextslidenavigationsymboldimmed{%
+	\insertrightarrowsymboldimmed
+}%
+
+
+
+% Previous symbol
+%
+\def\insertpreviousslidenavigationsymbol{%
+	\hyperlinkslideprev{\insertleftarrowsymbol}%
+}%
+
+\def\insertpreviousslidenavigationsymboldimmed{%
+	\insertleftarrowsymboldimmed
+}%
+
+
+% Back symbol
+%
+\def\insertbackslidenavigationsymbol{%
+	\hyperlink{\lode@parentstate}{\insertuparrowsymbol}%
+}%
+
+\def\insertbackslidenavigationsymboldimmed{%
+	\insertleftarrowsymboldimmed\insertuparrowsymboldimmed
+}%
+
+
+
+% Right arrow symbol
+%
+
+\pgfdefobject{beamerrightarrowsymbol}{\pgfpoint{0pt}{0pt}}{\pgfpoint{8pt}{8pt}} {
+  \pgfpathqmoveto{0.5bp}{0.0bp}
+  \pgfpathqlineto{7.5bp}{4.0bp}
+  \pgfpathqlineto{0.5bp}{8.0bp}
+  \pgfusepathqfill
+}
+
+\pgfdefobject{beamerrightarrowsymboldimmed}{\pgfpoint{0pt}{0pt}}{\pgfpoint{8pt}{8pt}} {
+}
+
+\def\insertrightarrowsymbol{%
+	\begin{pgfpicture}{0pt}{0pt}{8pt}{8pt}
+		\usebeamercolor[fg]{navigation symbols}
+		\pgfuseobject{beamerrightarrowsymbol}%
+	\end{pgfpicture}
+}
+
+\def\insertrightarrowsymboldimmed{%
+	\begin{pgfpicture}{0pt}{0pt}{8pt}{8pt}
+		\usebeamercolor[fg]{navigation symbols dimmed}
+		\pgfuseobject{beamerrightarrowsymboldimmed}%
+	\end{pgfpicture}
+}
+
+
+% Left arrow symbol
+%
+\pgfdefobject{beamerleftarrowsymbol}{\pgfpoint{0pt}{0pt}}{\pgfpoint{8pt}{8pt}}{
+  \pgfpathqmoveto{7.5bp}{0.0bp}
+  \pgfpathqlineto{0.5bp}{4bp}
+  \pgfpathqlineto{7.5bp}{8.0bp}
+  \pgfusepathqfill
+}
+
+\pgfdefobject{beamerleftarrowsymboldimmed}{\pgfpoint{0pt}{0pt}}{\pgfpoint{8pt}{8pt}}{
+}
+
+\def\insertleftarrowsymbol{%
+	\begin{pgfpicture}{0pt}{0pt}{8pt}{8pt}
+		\usebeamercolor[fg]{navigation symbols}
+		\pgfuseobject{beamerleftarrowsymbol}%
+	\end{pgfpicture}
+}
+
+\def\insertleftarrowsymboldimmed{%
+	\begin{pgfpicture}{0pt}{0pt}{8pt}{8pt}
+		\usebeamercolor[fg]{navigation symbols dimmed}
+		\pgfuseobject{beamerleftarrowsymboldimmed}%
+	\end{pgfpicture}
+}
+
+
+
+% Up arrow symbol
+%
+\pgfdefobject{beameruparrowsymbol}{\pgfpoint{0pt}{0pt}}{\pgfpoint{8pt}{8pt}}{
+  \pgfpathqmoveto{0.5bp}{0.0bp}
+  \pgfpathqlineto{4.0bp}{8.0bp}
+  \pgfpathqlineto{7.5bp}{0.0bp}
+  \pgfusepathqfill
+}
+
+\pgfdefobject{beameruparrowsymboldimmed}{\pgfpoint{0pt}{0pt}}{\pgfpoint{8pt}{8pt}}{
+}
+
+\def\insertuparrowsymbol{%
+	\begin{pgfpicture}{0pt}{0pt}{12pt}{12pt}
+		\usebeamercolor[fg]{navigation symbols}
+		\pgfuseobject{beameruparrowsymbol}%
+	\end{pgfpicture}
+}
+
+\def\insertuparrowsymboldimmed{%
+	\begin{pgfpicture}{0pt}{0pt}{12pt}{12pt}
+		\usebeamercolor[fg]{navigation symbols dimmed}
+		\pgfuseobject{beameruparrowsymboldimmed}%
+	\end{pgfpicture}
+}
+
+
+
+\newcommand{\lode@parentstate}{}
+\newboolean{lode@state@hasnext}
+\newboolean{lode@state@hasprev}
+
+\define@key{beamerframe}{parent}{%
+	\renewcommand{\lode@parentstate}{#1}%
+}
+\define@key{beamerframe}{hasnext}{%
+	\setboolean{lode@state@hasnext}{#1}%
+}
+\define@key{beamerframe}{hasprev}{%
+	\setboolean{lode@state@hasprev}{#1}%
+}
+
+\renewcommand{\insertnavigationsymbols}{%
+	\setlength{\fboxsep}{12pt}%
+	\hspace{-0.2cm}
+	\hbox{%
+		\ifthenelse{\equal{\lode@parentstate}{}}{
+			\hbox{\insertbackslidenavigationsymboldimmed}%
+		}{%
+			\hbox{\insertbackslidenavigationsymbol}%
+		}%
+
+		\ifthenelse{\boolean{lode@state@hasprev}}{%
+			\hbox{\insertpreviousslidenavigationsymbol}%
+		}{%
+			\hbox{\insertpreviousslidenavigationsymboldimmed}%
+		}%
+
+		\ifthenelse{\boolean{lode@state@hasnext}}{%
+			\hbox{\insertnextslidenavigationsymbol}%
+		}{%
+			\hbox{\insertnextslidenavigationsymboldimmed}%
+		}%
+	}%
+}
+
+\defbeamertemplate*{navigation symbols}{imacid}
+{%
+	\ifthenelse{\equal{\thepage}{1}}{
+	}{
+		\insertnavigationsymbols%
+
+		\vspace{.15cm}
+		\hspace{.7cm}\usebeamerfont{author}\usebeamercolor[fg]{subtitle}\insertframenumber
+	}
+}%
+
+
+\def\insertverticalnavigation#1{%
+  \vbox{%
+    \def\sectionentry##1##2##3##4##5{%
+      \ifnum##5=\c@part%
+      \def\insertsectionhead{##2}%
+      \def\insertsectionheadnumber{##1}%
+      \def\insertpartheadnumber{##5}%
+      \hbox{{%
+        \usebeamerfont{section in sidebar}\usebeamercolor[fg]{section in sidebar}%
+          \hyperlink{Navigation##3}{%
+          \ifnum\c@section=##1%
+            \ifnum\c@subsection=0\relax%
+              {\usebeamertemplate{section in sidebar}}%
+            \else%
+              \ifx\beamer@nav@css\beamer@hidetext%
+                {\usebeamertemplate{section in sidebar}}%
+              \else%
+                {\usebeamertemplate{section in sidebar shaded}}%
+              \fi%
+            \fi%
+          \else
+            {\usebeamertemplate{section in sidebar shaded}}%
+          \fi}}}%
+      \beamer@currentsubsection=0\relax\fi}%
+    \def\slideentry##1##2##3##4##5##6{}%
+    \def\beamer@subsectionentry##1##2##3##4##5{%
+      \ifnum##1=\c@part%
+      \def\insertpartheadnumber{##1}%
+      \def\insertsectionheadnumber{##2}%
+      \def\insertsubsectionheadnumber{##3}%
+      \def\insertsubsectionhead{##5}%
+       \beamer@tocifnothide{\ifnum\c@section=##2\ifnum\c@subsection=##3\beamer@nav@css\else\beamer@nav@oss\fi\else\beamer@nav@ooss\fi}%
+      {\hbox{{%
+        \usebeamerfont{subsection in sidebar}\usebeamercolor[fg]{subsection in sidebar}%
+          \hyperlink{Navigation##4}{%
+          \ifnum\c@section=##2%
+            \ifnum\c@subsection=##3%
+              \ifnum\c@subsubsection=0\relax%
+                {\usebeamertemplate{subsection in sidebar}}%
+              \else%
+                {\usebeamertemplate{subsection in sidebar shaded}}%
+              \fi%
+            \else%
+              {\usebeamertemplate{subsection in sidebar shaded}}%
+            \fi%
+          \else%
+            {\usebeamertemplate{subsection in sidebar shaded}}%
+          \fi}}}%
+      }%
+      \fi}%
+    \def\beamer@subsubsectionentry##1##2##3##4##5##6{%
+      \ifnum##1=\c@part%
+      \def\insertpartheadnumber{##1}%
+      \def\insertsectionheadnumber{##2}%
+      \def\insertsubsectionheadnumber{##3}%
+      \def\insertsubsubsectionheadnumber{##3}%
+      \def\insertsubsubsectionhead{##6}%
+      \beamer@tocifnothide{\ifnum\c@section=##2\ifnum\c@subsection=##3\beamer@nav@css\else\beamer@nav@oss\fi\else\beamer@nav@ooss\fi}%
+      {\hbox{{%
+        \usebeamerfont{subsubsection in sidebar}\usebeamercolor[fg]{subsubsection in sidebar}%
+          \hyperlink{Navigation##5}{%
+          \ifnum\c@section=##2%
+            \ifnum\c@subsection=##3%
+              \ifnum\c@subsubsection=##4%
+                {\usebeamertemplate{subsubsection in sidebar}}%
+              \else
+                {\usebeamertemplate{subsubsection in sidebar shaded}}%
+              \fi%
+            \else%
+              {\usebeamertemplate{subsubsection in sidebar shaded}}%
+            \fi%
+          \else%
+            {\usebeamertemplate{subsubsection in sidebar shaded}}%
+          \fi}}}%
+      }%
+      \fi}%
+    %\beamer@currentsubsection=0\relax%
+    \dohead%
+  }%
+  \vfill%
+  \hspace{.3cm}\usebeamertemplate***{navigation symbols}
+  \vspace{.3cm}
+}
+
+\let\@mkboth\@gobbletwo
+\def\ps@navigation{
+  \def\@oddhead{%
+    \begingroup%
+    \setbox\beamer@tempbox=\hbox{\usebeamertemplate***{background canvas}\hyper@pagetransition\hyper@pageduration}%
+    \beamer@tempdim=\ht\beamer@tempbox%
+    \setbox\beamer@tempbox=\hbox{\lower\beamer@tempdim\hbox{\box\beamer@tempbox}}%
+    \wd\beamer@tempbox=0pt\ht\beamer@tempbox=0pt\dp\beamer@tempbox=0pt%
+    \setbox\@tempboxa=\hbox{\usebeamertemplate***{background}}%
+    \beamer@tempdim=\ht\@tempboxa%
+    \setbox\@tempboxa=\hbox{\lower\beamer@tempdim\hbox{\box\@tempboxa}}%
+    \wd\@tempboxa=0pt\ht\@tempboxa=0pt\dp\@tempboxa=0pt%
+    \vbox{\hbox{\hskip-\Gm@lmargin\box\beamer@tempbox\box\@tempboxa}%
+      \hbox{%
+        {%
+          \setbox\beamer@tempbox=\hbox{\hskip-\Gm@lmargin%
+            {\setbox\beamer@tempbox=\hbox{\vbox to \sidebarheight{%
+                  \usebeamercolor*{sidebar left}%
+                  \usebeamertemplate{sidebar canvas left}%
+                  \vss%
+                }}%
+              \wd\beamer@tempbox=0pt\ht\beamer@tempbox=0pt\dp\beamer@tempbox=0pt%
+              \box\beamer@tempbox}%
+            {%
+              \vbox to \sidebarheight{%
+                \usebeamertemplate***{sidebar left}%
+                \vfil%
+            }}}%
+          \beamer@tempdim=\ht\beamer@tempbox%
+          \setbox\beamer@tempbox=\hbox{{\lower\beamer@tempdim\hbox{\box\beamer@tempbox}}}%
+          \wd\beamer@tempbox=0pt\ht\beamer@tempbox=0pt\dp\beamer@tempbox=0pt%
+          \box\beamer@tempbox%
+        }%
+        {% print right sidebar first, since it should be overwritten by headline
+          \setbox\beamer@tempbox=\hbox{\hskip\textwidth\hskip\beamer@rightmargin%
+            {\setbox\beamer@tempbox=\hbox{\vbox to \sidebarheight{%
+                  \usebeamercolor*{sidebar right}%
+                  \usebeamertemplate{sidebar canvas right}%
+                  \vss%
+                }}%
+              \wd\beamer@tempbox=0pt\ht\beamer@tempbox=0pt\dp\beamer@tempbox=0pt%
+              \box\beamer@tempbox}%
+            {%
+              \vbox to \sidebarheight{%
+                \usebeamertemplate***{sidebar right}%
+                \vfil%
+            }}}%
+          \beamer@tempdim=\ht\beamer@tempbox%
+          \setbox\beamer@tempbox=\hbox{{\lower\beamer@tempdim\hbox{\box\beamer@tempbox}}}%
+          \wd\beamer@tempbox=0pt\ht\beamer@tempbox=0pt\dp\beamer@tempbox=0pt%
+          \box\beamer@tempbox%
+        }%
+        \beamer@typesetheadorfoot{headline}%
+      }%
+      \hfil}%
+    \endgroup}
+  \def\@oddfoot{\vbox{\offinterlineskip\hbox{\beamer@typesetheadorfoot{footline}%
+        \hypertarget{Navigation\the\c@page}{}%
+        \hypertarget{page.\the\c@page}{}\hfil}\hbox{}}\hfil}
+  \let\@evenhead\@oddhead
+  \let\@evenfoot\@oddfoot}
+\pagestyle{navigation}
+
+
+
+\def\@pdflinkurlborderstyle{/S/U/W 1}
+
+\def\hyper@linkurl#1#2{%
+  \begingroup
+    \Hy@pstringdef\Hy@pstringURI{#2}%
+    \hyper@chars
+    \leavevmode
+    \pdfstartlink
+      attr{%
+        \Hy@setlinkurlpdfborder
+      }%
+      user{%
+       /Subtype/Link%
+       \ifHy@pdfa /F 4\fi
+       /A<<%
+         /Type/Action%
+         /S/URI%
+         /URI(\Hy@pstringURI)%
+       >>%
+      }%
+      \relax
+    \Hy@colorlink\@urlcolor#1%
+    \close@pdflink
+  \endgroup
+}
+
+\def\Hy@setlinkurlpdfborder{%
+  \ifx\@pdflinkurlborderstyle\@empty
+  \else
+    /Border[\@pdfborder]%
+    /BS<<\@pdflinkurlborderstyle>>%
+  \fi
+}
+
+
+\newcommand{\highlight}[1]{\textcolor{Red}{\textbf{#1}}}
+
+\mode<presentation>
+{
+	\usetheme[hideothersubsections]{Lode}
+	\setbeamerfont{frametitle}{size=\small,series=\bfseries}
+	\setbeamerfont{date}{size=\scriptsize}
+	\setbeamerfont{author}{size=\small}
+	\setbeamertemplate{navigation symbols}[imacid]
+	\setbeamertemplate{enumerate items}[default]
+	\setbeamercovered{transparent}
+	\setbeamertemplate{title page}[imacid]
+	\setbeamertemplate{blocks}[rounded][shadow=true]
+	\setbeamertemplate{frametitle continuation}{}
+} % end of mode<presentation>
+
+\mode<article>
+{
+	\RequirePackage{enumerate}
+	\RequirePackage{hyperref}
+}
+
+\mode<handout>
+{
+	\RequirePackage{pgfpages}
+%	\pgfpagesuselayout{resize to}[a4paper,border shrink=5mm,landscape]
+%	\pgfpagesuselayout{2 on 1}[a4paper,border shrink=5mm]
+	\setbeamercolor{background canvas}{bg=black!5}
+}
+
+
+% \mode<all>
+% {
+	\RequirePackage{lmodern}
+% %	\RequirePackage{backref}
+% %	\hypersetup{backref=page}
+% 	\hypersetup{bookmarks=true}
+% 	\hypersetup{breaklinks=true}
+% 	\hypersetup{hyperfootnotes=false}
+% % 	\hypersetup{pageanchor=false}
+% % 	\hypersetup{plainpages=false}
+% % 	\hypersetup{pagebackref=true}
+% 	\hypersetup{pdfhighlight=/I}% /I (inverse), /N (no effect), /O (outline), /P (inset highlighting).
+% 	\hypersetup{pdfpagemode=UseNone}
+% 	\hypersetup{pdfdisplaydoctitle=true}
+% %	\hypersetup{pdfborder=0 0 1}
+% % 	\hypersetup{linkcolor=red}
+% % 	\hypersetup{anchorcolor=black}
+% % 	\hypersetup{citecolor=green}
+% % 	\hypersetup{filecolor=cyan}
+% % 	\hypersetup{menucolor=red}
+% % 	\hypersetup{runcolor=filecolor}
+% % 	\hypersetup{urlcolor=magenta}
+% %	\hypersetup{unicode}{true}
+% }
+
+
+\newcommand{\backlabel}{}
+
+\RequirePackage{calc}
+\newlength\lode@newXsize
+\newlength\lode@newYsize
+
+
+% Build using the following: pdflatex "\let\forlinux\iftrue\input{root}"
+% \ifdefined\forwindows%
+%  	\RequirePackage{movie15}
+% 	\newcommand{\insertmovie}[1]{\includemovie[mimetype={video/mp4}, poster, inline=true, text={\includegraphics[width=\textwidth]{#1}}]{}{}{#1.lossy.mp4}}%
+% \else%
+% 	\ifdefined\forlinux%
+% 		% multimedia.sty
+% 		\newcommand{\insertmovie}[1]{\movie{\includegraphics{figs/#1}}{figs/#1.avi}}%
+% 	\else%
+%		% flashmovie
+%		\RequirePackage{flashmovie}
+%		\setlength\lode@newXsize{\textwidth}
+%		\setlength\lode@newYsize{\textwidth * \real{0.75}}
+%		% This is the optimal command, but it does not work
+%		% \setlength\lode@newYsize{\ratio{\textwidth*\beamer@paperheight}{\beamer@paperwidth}}
+%
+%		% If using mp4 movies, the following command should be used (but be
+%		% aware that Flash/Adobe does not support Lossless MP4 videos).
+%		% \newcommand{\insertmovie}[1]{\flashmovie[width=\lode@newXsize,height=\lode@newYsize,image=#1.png,engine=flv-player]{#1.mp4}}
+%
+% 		% If using swf animations, use the following command.
+% 		\newcommand{\insertmovie}[1]{\flashmovie[width=\lode@newXsize,height=\lode@newYsize,image={#1.png},auto=0,engine=flv-player]{#1.swf}}
+% 	\fi
+% \fi
+
+
+
+% Movie support on Windows (Adobe Reader)
+%
+% \RequirePackage{media9}
+% \setlength\lode@newXsize{\textwidth}
+% \setlength\lode@newYsize{\textwidth * \real{0.75}}
+% \newcommand{\insertmovie}[1]{\includemedia[activate=onclick,playbutton=fancy,windowed=false,width=\textwidth]{\includegraphics[width=\textwidth]{#1}}{#1.swf}}
+
+
+% Movie support on most platforms (Linux including)
+%
+\RequirePackage{multimedia}
+\newcommand{\insertmovie}[1]{\movie[showcontrols]{\includegraphics[width=\textwidth]{#1}}{#1.lossless.mp4}}
+
+% #1 = example file
+% #2 = source anchor (i.e., where we will link to from the example, or return
+% when finished reading the example)
+\newcommand{\insertexample}[2]{%
+	\renewcommand{\lode@parentstate}{#2}%
+%        \input{aux/examples/#1/#1}%
+	\label{example:#1}
+	\input{aux/examples/#1/#1}%
+}
+
+
+
+
+% \def\insertverticalnavigation#1{%
+% 	\vbox{%
+% 		\def\sectionentry##1##2##3##4##5{%
+% 			\ifnum##5=\c@part%
+% 				\def\insertsectionhead{##2}%
+% 				\def\insertsectionheadnumber{##1}%
+% 				\def\insertpartheadnumber{##5}%
+% 				\ifnum\c@section=##1%
+% 					\hyperlink{Navigation##3}{%
+% 						\ifnum\c@subsection=0\relax%
+% 							\hbox{\imacid@template@apply{section in sidebar}}%
+% 						\else%
+% 							\ifx\beamer@nav@css\beamer@hidetext%
+% 								\hbox{\imacid@template@apply{section in sidebar}}%
+% 							\else%
+% 								\hbox{\imacid@template@apply{section in sidebar shaded}}%
+% 							\fi%
+% 						\fi
+% 					}%
+% 				\fi%
+% 				\beamer@currentsubsection=0\relax%
+% 			\fi%
+% 		}%
+% 		\def\slideentry##1##2##3##4##5##6{}%
+% 		\def\beamer@subsectionentry##1##2##3##4##5{%
+% 			\ifnum##1=\c@part%
+% 				\def\insertpartheadnumber{##1}%
+% 				\def\insertsectionheadnumber{##2}%
+% 				\def\insertsubsectionheadnumber{##3}%
+% 				\def\insertsubsectionhead{##5}%
+% 				\beamer@tocifnothide{%
+% 					\ifnum\c@section=##2%
+% 						\ifnum\c@subsection=##3%
+% 							\beamer@nav@css%
+% 						\else%
+% 							\beamer@nav@oss%
+% 						\fi%
+% 					\fi%
+% 				}%
+% 				\ifnum\c@section=##2%
+% 					\ifnum\c@subsection=##3%
+% 						\hyperlink{Navigation##4}{%
+% 							\ifnum\c@subsubsection=0\relax%
+% 								\hbox{\imacid@template@apply{subsection in sidebar}}%
+% 							\else%
+% 								\hbox{\imacid@template@apply{subsection in sidebar shaded}}%
+% 							\fi%
+% 						}%
+% 					\else%
+% 						\hbox{\imacid@template@apply{subsection in sidebar shaded}}%
+% 					\fi%
+% 				\fi%
+% 			\fi%
+% 		}%
+% 		\def\beamer@subsubsectionentry##1##2##3##4##5##6{%
+% 			\ifnum##1=\c@part%
+% 				\def\insertpartheadnumber{##1}%
+% 				\def\insertsectionheadnumber{##2}%
+% 				\def\insertsubsectionheadnumber{##3}%
+% 				\def\insertsubsubsectionheadnumber{##3}%
+% 				\def\insertsubsubsectionhead{##6}%
+% 				\beamer@tocifnothide{%
+% 					\ifnum\c@section=##2%
+% 						\ifnum\c@subsection=##3%
+% 							\beamer@nav@css%
+% 						\else%
+% 							\beamer@nav@oss%
+% 						\fi%
+% 					\fi%
+% 				}%
+% 				\ifnum\c@section=##2%
+% 					\ifnum\c@subsection=##3%
+% 						\hyperlink{Navigation##5}{%
+% 							\ifnum\c@subsubsection=##4%
+% 								\hbox{\imacid@template@apply{subsubsection in sidebar}}%
+% 							\else%
+% 								\hbox{\imacid@template@apply{subsubsection in sidebar shaded}}%
+% 							\fi%
+% 						}%
+% 					\else%
+% 						\hbox{\imacid@template@apply{subsubsection in sidebar shaded}}%
+% 					\fi%
+% 				\fi%
+% 			\fi%
+% 		}%
+% 		\dohead%
+% 	}%
+% }
+
+\newcommand{\imacid@template@apply}[1]{
+	\usebeamerfont{#1}%
+	\usebeamercolor[fg]{#1}%
+	\usebeamertemplate{#1}%
+}
+
+
+
+
+
+% #1 = reference (there must an \insertexample somewhere in the text with this
+% label)
+% #2 = text to be used as the buttom's label.
+\newcommand{\refie}[2]{%
+	\hyperlink{#1}{#2}%
+}
+
+
+\mode<all>
+\subinputfrom{elements}{lode-concept.sty}
+\subinputfrom{elements}{lode-cmap.sty}
+\subinputfrom{elements}{lode-ie.sty}
+\subinputfrom{elements}{lode-cdt-fact.sty}
+\subinputfrom{elements}{lode-cdt-concept.sty}
+\subinputfrom{elements}{lode-cdt-procedure.sty}
+\subinputfrom{elements}{lode-cdt-principle.sty}

@@ -1,0 +1,32 @@
+\RequirePackage{setspace} 
+
+% Direct citation environment
+\newsavebox{\quotationsavebox}
+\renewenvironment{quotation}[1]{
+	\sbox{\quotationsavebox}{#1}
+	\vspace{.5cm}
+	\hfill
+	\begin{minipage}[c]{.80952381\linewidth}
+		\singlespacing
+		\small
+}{
+	\end{minipage}
+	\\\hspace*\fill\usebox{\quotationsavebox}
+	\vspace{.5cm}
+}
+
+
+% Important definitions environment (box with rounded corners)
+\RequirePackage{fancybox}
+\newcommand{\worddefinitionboxmargin}{8pt}
+\newcommand{\fboxsepdefault}{\fboxsep}
+\newcommand{\worddefinition}[1]{
+	\begin{center}
+		\renewcommand{\fboxsepdefault}{\fboxsep}
+		\renewcommand{\fboxsep}{\worddefinitionboxmargin}
+		\vspace{.5cm}
+		\ovalbox{\parbox{\linewidth - 2.5cm}{#1}}
+		\vspace{.5cm}
+		\renewcommand{\fboxsep}{\fboxsepdefault}
+	\end{center}
+}
