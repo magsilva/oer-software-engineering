@@ -1,0 +1,64 @@
+\pdfminorversion=7
+\PassOptionsToPackage{obeyspaces}{url}
+\documentclass[utf8, english, brazil, usepdftitle=false, svgnames, color={table, fixpdftex, hyperref, fixinclude, xcdraw}, t]{beamer}
+
+\usepackage{latexscholar-i18n}
+\usepackage{latexscholar-quote}
+\usepackage{latexscholar-verbatim}
+% \usepackage{latexscholar-pdf}
+\usepackage{lode-imacid}
+\usepackage{multirow}
+
+\title[]{\large Engenharia de Software 2}
+\subtitle{\textit{Bacharelado em Ciência da Computação}}
+\author[UTFPR]{Prof. Dr. Marco Aurélio Graciotto Silva}
+\date[]{2022}
+\logopicture{utfpr}{scale=1}
+
+\usepackage{tabularx}
+%
+\usepackage{pgfpages}
+%\AtBeginNote{\textbf{Anotações}\par\small}
+%\setbeameroption{show notes on second screen}
+
+
+\begin{document}
+
+\frontmatter{}
+\include{titlepage}
+
+\mainmatter{}
+\include{agenda}
+% 
+% \section{Software}
+% \include{software-engineering/definition}
+
+\section{Conceitos}
+\include{software-engineering/project-management/product/product}
+% \include{software-engineering/project-management/product/product-management}
+
+\subsection{Qualidade de produto}
+\include{software-engineering/project-management/product/product-quality}
+
+\subsubsection{McCall}
+\include{software-engineering/project-management/product/mccall}
+
+\subsubsection{ISO 9126}
+\include{software-engineering/project-management/product/iso9126}
+
+\subsubsection{Dromey}
+\include{software-engineering/project-management/product/dromey}
+
+\subsubsection{ISO 14598}
+\include{software-engineering/project-management/product/iso14598}
+
+\subsubsection{ISO 25000}
+\include{software-engineering/project-management/product/iso25000}
+
+
+\backmatter{}
+\part{Referências e créditos}
+\include{bibliography}
+
+
+\end{document}

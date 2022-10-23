@@ -1,0 +1,28 @@
+% Procedure block definition
+%
+
+\setbeamercolor{procedure title}{bg=orange!30!black, fg=white}
+\setbeamercolor{procedure body}{bg=orange!05!white, fg=black}
+
+\defbeamertemplate*{procedure begin}{default}{%
+	\par%
+	\vskip\medskipamount%
+	\begin{beamerboxesrounded}[upper=procedure title,lower=procedure body,shadow=true]{\usebeamerfont{block title}\insertblocktitle}%
+	\usebeamerfont{block body}%
+ }
+
+\defbeamertemplate*{procedure end}{default}{%
+	\end{beamerboxesrounded}%
+	\vskip\smallskipamount%
+}
+
+\newenvironment<>{block:procedure}[1]{%
+	\begin{actionenv}#2%
+		\def\insertblocktitle{#1}%
+		\par%
+		\usebeamertemplate{procedure begin}%
+}{%
+		\par%
+		\usebeamertemplate{procedure end}%
+	\end{actionenv}%
+}

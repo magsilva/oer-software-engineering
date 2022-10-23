@@ -1,0 +1,26 @@
+% Fact block definition
+%
+
+\setbeamercolor{instructional element title}{bg=orange!30!black, fg=white}
+\setbeamercolor{instructional element body}{bg=orange!05!white, fg=black}
+
+\defbeamertemplate*{instructional element begin}{default}[1][]{%
+	\par%
+	\vskip\medskipamount%
+	\begin{beamerboxesrounded}[upper=instructional element title,lower=instructional element body,shadow=true,#1]{\usebeamerfont{block title}\insertblocktitle}%
+	\usebeamerfont{block body}%
+ }
+
+\defbeamertemplate*{instructional element end}{default}{%
+	\end{beamerboxesrounded}%
+	\vskip\smallskipamount%
+}
+
+\newenvironment<>{block:ie}[1]{%
+	\begin{actionenv}#2%
+		\def\insertblocktitle{#1}%
+		\usebeamertemplate{instructional element begin}%
+}{%
+		\usebeamertemplate{instructional element end}%
+	\end{actionenv}%
+}
